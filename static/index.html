@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindMetrics — Student Wellbeing Telemetry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <div class="brand-mark">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="brand-name">MindMetrics</span>
+                    <span class="brand-tag">RF-Pipeline v1.0</span>
+                </div>
+            </div>
+
+            <div class="topbar-actions">
+                <div class="preset-group">
+                    <span class="preset-label">Presets</span>
+                    <button type="button" class="chip-btn" data-preset="balanced">Balanced</button>
+                    <button type="button" class="chip-btn" data-preset="crunch">Exam Crunch</button>
+                    <button type="button" class="chip-btn" data-preset="heavy">High Screen</button>
+                </div>
+                <div class="api-status" id="apiStatus" title="Checks GET /health">
+                    <span class="status-dot"></span>
+                    <span class="status-text" id="apiStatusText">Connecting...</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <!-- Left Column: Input Form -->
+        <section class="panel form-panel">
+            <div class="panel-header">
+                <div>
+                    <h1>Behavioral & Lifestyle Inputs</h1>
+                    <p>Configure student demographics, screen habits, and daily routines to run inference.</p>
+                </div>
+                <button type="button" class="ghost-btn" id="resetBtn">Reset</button>
+            </div>
+
+            <form id="predictionForm" novalidate>
+                <!-- Section 1: Demographics -->
+                <div class="form-section">
+                    <div class="section-title">01 / Demographics & Academics</div>
+                    
+                    <div class="grid-2">
+                        <div class="field-group">
+                            <div class="field-header">
+                                <label for="age">Age</label>
+                                <span class="mono-val"><span id="ageVal">21</span> yrs</span>
+                            </div>
+                            <input type="range" id="age" name="age" min="10" max="100" step="1" value="21" class="range-slider" />
+                            <div class="range-ticks">
+                                <span>10</span>
+                                <span>25</span>
+                                <span>50</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="country">Country / Region</label>
+                            <div class="select-wrapper">
+                                <select id="country" name="country" required>
+                                    <option value="India" selected>India</option>
+                                    <option value="USA">United States (USA)</option>
+                                    <option value="UK">United Kingdom (UK)</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="France">France</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Turkey">Turkey</option>
+                                    <option value="Other">Other Region</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="field-group">
+                            <label>Gender</label>
+                            <div class="segmented-control" data-target="gender">
+                                <input type="hidden" id="gender" name="gender" value="Male" />
+                                <button type="button" class="seg-btn active" data-value="Male">Male</button>
+                                <button type="button" class="seg-btn" data-value="Female">Female</button>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label>Academic Level</label>
+                            <div class="segmented-control" data-target="academic_level">
+                                <input type="hidden" id="academic_level" name="academic_level" value="Undergraduate" />
+                                <button type="button" class="seg-btn" data-value="High School">High School</button>
+                                <button type="button" class="seg-btn active" data-value="Undergraduate">Undergrad</button>
+                                <button type="button" class="seg-btn" data-value="Graduate">Graduate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Digital Telemetry -->
+                <div class="form-section">
+                    <div class="section-title">02 / Digital Screen Telemetry</div>
+
+                    <div class="grid-2">
+                        <div class="field-group">
+                            <label for="most_used_platform">Primary Platform</label>
+                            <div class="select-wrapper">
+                                <select id="most_used_platform" name="most_used_platform" required>
+                                    <option value="Instagram">Instagram</option>
+                                    <option value="YouTube" selected>YouTube</option>
+                                    <option value="WhatsApp">WhatsApp</option>
+                                    <option value="LinkedIn">LinkedIn</option>
+                                    <option value="Twitter">Twitter / X</option>
+                                    <option value="TikTok">TikTok</option>
+                                    <option value="Facebook">Facebook</option>
+                                    <option value="Snapchat">Snapchat</option>
+                                    <option value="WeChat">WeChat</option>
+                                    <option value="LINE">LINE</option>
+                                    <option value="KakaoTalk">KakaoTalk</option>
+                                    <option value="VKontakte">VKontakte</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label>Primary Purpose of Use</label>
+                            <div class="segmented-control" data-target="purpose_of_use">
+                                <input type="hidden" id="purpose_of_use" name="purpose_of_use" value="Education" />
+                                <button type="button" class="seg-btn" data-value="Education">Education</button>
+                                <button type="button" class="seg-btn active" data-value="Entertainment">Entertainment</button>
+                                <button type="button" class="seg-btn" data-value="Networking">Network</button>
+                                <button type="button" class="seg-btn" data-value="News">News</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="field-group">
+                            <div class="field-header">
+                                <label for="avg_daily_usage_hours">Avg. Daily Screen Time</label>
+                                <span class="mono-val"><span id="usageVal">4.5</span> hrs</span>
+                            </div>
+                            <input type="range" id="avg_daily_usage_hours" name="avg_daily_usage_hours" min="0" max="24" step="0.5" value="4.5" class="range-slider" />
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-header">
+                                <label for="daily_unlocks">Daily Phone Unlocks</label>
+                                <span class="mono-val"><span id="unlocksVal">65</span>x</span>
+                            </div>
+                            <input type="range" id="daily_unlocks" name="daily_unlocks" min="0" max="300" step="1" value="65" class="range-slider" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Daily Schedule & Stress -->
+                <div class="form-section">
+                    <div class="section-title">03 / Daily Schedule & Stress Load</div>
+
+                    <div class="grid-3">
+                        <div class="field-group">
+                            <div class="field-header">
+                                <label for="study_hours">Study</label>
+                                <span class="mono-val"><span id="studyVal">5.0</span> hrs</span>
+                            </div>
+                            <input type="range" id="study_hours" name="study_hours" min="0" max="24" step="0.5" value="5.0" class="range-slider" />
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-header">
+                                <label for="physical_activity_hours">Exercise</label>
+                                <span class="mono-val"><span id="activityVal">1.5</span> hrs</span>
+                            </div>
+                            <input type="range" id="physical_activity_hours" name="physical_activity_hours" min="0" max="24" step="0.5" value="1.5" class="range-slider" />
+                        </div>
+
+                        <div class="field-group">
+                            <div class="field-header">
+                                <label for="sleep_hours_per_night">Sleep</label>
+                                <span class="mono-val"><span id="sleepVal">7.5</span> hrs</span>
+                            </div>
+                            <input type="range" id="sleep_hours_per_night" name="sleep_hours_per_night" min="0" max="24" step="0.5" value="7.5" class="range-slider" />
+                        </div>
+                    </div>
+
+                    <!-- 24-Hour Day Allocation Bar -->
+                    <div class="allocation-box">
+                        <div class="allocation-header">
+                            <span>24-Hour Daily Allocation</span>
+                            <span id="totalHoursLabel" class="mono-val">18.5 / 24.0 hrs tracked</span>
+                        </div>
+                        <div class="allocation-bar">
+                            <div class="alloc-segment seg-screen" id="barScreen" style="width: 18.75%" title="Screen Time"></div>
+                            <div class="alloc-segment seg-study" id="barStudy" style="width: 20.83%" title="Study"></div>
+                            <div class="alloc-segment seg-exercise" id="barExercise" style="width: 6.25%" title="Exercise"></div>
+                            <div class="alloc-segment seg-sleep" id="barSleep" style="width: 31.25%" title="Sleep"></div>
+                        </div>
+                        <div class="allocation-legend">
+                            <span><i class="dot dot-screen"></i>Screen</span>
+                            <span><i class="dot dot-study"></i>Study</span>
+                            <span><i class="dot dot-exercise"></i>Exercise</span>
+                            <span><i class="dot dot-sleep"></i>Sleep</span>
+                            <span id="allocationWarning" class="alloc-warning hidden">Exceeds 24h physical day</span>
+                        </div>
+                    </div>
+
+                    <div class="field-group stress-field">
+                        <label>Self-Reported Stress Level</label>
+                        <div class="segmented-control stress-control" data-target="stress_level">
+                            <input type="hidden" id="stress_level" name="stress_level" value="Medium" />
+                            <button type="button" class="seg-btn" data-value="Low">Low</button>
+                            <button type="button" class="seg-btn active" data-value="Medium">Medium</button>
+                            <button type="button" class="seg-btn" data-value="High">High</button>
+                            <button type="button" class="seg-btn" data-value="Very High">Very High</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">Run Model Inference</span>
+                        <span class="btn-spinner hidden" id="btnSpinner"></span>
+                        <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Right Column: Live Telemetry & Output -->
+        <aside class="panel result-panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Inference Output</h2>
+                    <p>Predicted Mental Health Index (0–10 scale)</p>
+                </div>
+                <span class="badge" id="scoreBadge">Awaiting Input</span>
+            </div>
+
+            <!-- Radial SVG Gauge -->
+            <div class="gauge-container">
+                <svg class="gauge-svg" viewBox="0 0 220 135">
+                    <defs>
+                        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#f43f5e" />
+                            <stop offset="50%" stop-color="#f59e0b" />
+                            <stop offset="100%" stop-color="#10b981" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Background Track -->
+                    <path
+                        class="gauge-track"
+                        d="M 25 115 A 85 85 0 0 1 195 115"
+                        fill="none"
+                        stroke-width="14"
+                        stroke-linecap="round"
+                    />
+                    <!-- Animated Value Arc -->
+                    <path
+                        id="gaugeArc"
+                        class="gauge-fill"
+                        d="M 25 115 A 85 85 0 0 1 195 115"
+                        fill="none"
+                        stroke="url(#gaugeGrad)"
+                        stroke-width="14"
+                        stroke-linecap="round"
+                        stroke-dasharray="267"
+                        stroke-dashoffset="267"
+                    />
+                </svg>
+                <div class="gauge-readout">
+                    <div class="score-number" id="scoreDisplay">—</div>
+                    <div class="score-scale">out of 10.00</div>
+                </div>
+            </div>
+
+            <div class="insight-card" id="insightCard">
+                <div class="insight-title" id="insightTitle">Ready for Evaluation</div>
+                <p class="insight-desc" id="insightDesc">
+                    Submit the telemetry parameters on the left to compute the predicted mental wellbeing score via the FastAPI Random Forest endpoint.
+                </p>
+            </div>
+
+            <!-- Live Feature Snapshot -->
+            <div class="metrics-list">
+                <div class="section-title">Active Feature Vector</div>
+                <div class="metric-row">
+                    <span class="metric-name">Screen-to-Sleep Ratio</span>
+                    <span class="metric-val mono-val" id="ratioReadout">0.60x</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-name">Unlock Frequency</span>
+                    <span class="metric-val mono-val" id="unlockRateReadout">4.0 / waking hr</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-name">Rest & Recovery</span>
+                    <span class="metric-val mono-val" id="recoveryReadout">9.0 hrs (Sleep + Act.)</span>
+                </div>
+            </div>
+
+            <!-- Recent Predictions Log -->
+            <div class="history-section">
+                <div class="history-header">
+                    <span class="section-title">Session Log</span>
+                    <button type="button" class="text-btn" id="clearHistoryBtn">Clear</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="history-empty">No predictions recorded in this session.</div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <div class="toast hidden" id="errorToast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
