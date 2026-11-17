@@ -7,6 +7,21 @@ An end-to-end machine learning project: from exploratory data analysis and model
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikit-learn&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=white)
 ![Status](https://img.shields.io/badge/status-complete-brightgreen)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7?logo=render&logoColor=white)](https://mental-health-score-np0u.onrender.com)
+
+---
+
+## 🌐 Live Demo
+
+**👉 [https://mental-health-score-np0u.onrender.com](https://mental-health-score-np0u.onrender.com)**
+
+| Link | What you get |
+|---|---|
+| [Dashboard](https://mental-health-score-np0u.onrender.com) | Interactive web UI |
+| [API Docs (Swagger)](https://mental-health-score-np0u.onrender.com/docs) | Try the API in your browser |
+| [Health Check](https://mental-health-score-np0u.onrender.com/health) | API status |
+
+> **Note:** The app is hosted on Render's free tier, so the first request after a period of inactivity may take 30–60 seconds while the service wakes up.
 
 ---
 
@@ -83,6 +98,7 @@ Because the whole transformation lives inside the pipeline, **training and infer
 - **Live API status** — the UI pings `/health` and shows connection state.
 - **Auto-generated docs** — Swagger UI at `/docs`, ReDoc at `/redoc`.
 - **Single-command deploy** — FastAPI serves both the API and the static frontend.
+- **Deployed on Render** — try it live without installing anything: [mental-health-score-np0u.onrender.com](https://mental-health-score-np0u.onrender.com)
 
 ---
 
@@ -129,13 +145,17 @@ Then open:
 
 | URL | What you get |
 |---|---|
-| http://127.0.0.1:8000 | Web dashboard |
-| http://127.0.0.1:8000/docs | Interactive Swagger API docs |
-| http://127.0.0.1:8000/health | Health check |
+| http://127.0.0.1:8000 | Web dashboard (local) |
+| http://127.0.0.1:8000/docs | Interactive Swagger API docs (local) |
+| http://127.0.0.1:8000/health | Health check (local) |
+| https://mental-health-score-np0u.onrender.com | Live deployed version |
 
 ---
 
 ## 🔌 API Reference
+
+> Base URL (live): `https://mental-health-score-np0u.onrender.com`
+> Base URL (local): `http://127.0.0.1:8000`
 
 ### `GET /health`
 
@@ -170,7 +190,15 @@ Then open:
 { "predicted_mental_health_score": 6.42 }
 ```
 
-**cURL example**
+**cURL example (live)**
+
+```bash
+curl -X POST https://mental-health-score-np0u.onrender.com/predict \
+  -H "Content-Type: application/json" \
+  -d '{"age":21,"gender":"Male","country":"India","academic_level":"Undergraduate","most_used_platform":"Instagram","purpose_of_use":"Entertainment","avg_daily_usage_hours":5.5,"daily_unlocks":120,"study_hours":3.0,"physical_activity_hours":1.5,"sleep_hours_per_night":6.5,"stress_level":"Medium"}'
+```
+
+**cURL example (local)**
 
 ```bash
 curl -X POST http://127.0.0.1:8000/predict \
@@ -222,6 +250,7 @@ curl -X POST http://127.0.0.1:8000/predict \
 **ML / Data:** Python · Pandas · NumPy · scikit-learn · XGBoost · Matplotlib · Seaborn
 **Backend:** FastAPI · Pydantic · Uvicorn · Joblib
 **Frontend:** HTML5 · CSS3 · Vanilla JavaScript
+**Hosting:** Render
 
 ---
 
